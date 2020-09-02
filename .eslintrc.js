@@ -10,7 +10,9 @@ module.exports = {
   ],
   "env": {
     "browser": true,
-    "jquery" : true
+    "jquery" : true,
+    "node": true,
+    "commonjs": true
   },
   plugins: ["react"], //"@typescript-eslint"
   parserOptions: {
@@ -18,6 +20,8 @@ module.exports = {
      ecmaVersion: 2015,
   },
   rules: {
+    "no-console": "off",
+    "no-unused-vars": "off",
     "react/no-this-in-sfc": 0,
     "react/prop-types": 0,
     "react/no-unescaped-entities": 0
