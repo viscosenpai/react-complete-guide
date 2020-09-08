@@ -8,23 +8,24 @@ module.exports = {
     // "prettier/@typescript-eslint",
     "prettier/react",
   ],
-  "env": {
-    "browser": true,
-    "jquery" : true,
-    "node": true,
-    "commonjs": true
+  env: {
+    browser: true,
+    jquery: true,
+    node: true,
+    commonjs: true,
   },
   plugins: ["react"], //"@typescript-eslint"
   parserOptions: {
-     sourceType: "module",
-     ecmaVersion: 2015,
+    sourceType: "module",
+    ecmaVersion: 2015,
   },
   rules: {
+    "no-undef": 0,
     "no-console": "off",
     "no-unused-vars": "off",
     "react/no-this-in-sfc": 0,
     "react/prop-types": 0,
     "react/no-unescaped-entities": 0,
-    "react/display-name": "off"
+    "react/display-name": "off",
   },
-}
+};
