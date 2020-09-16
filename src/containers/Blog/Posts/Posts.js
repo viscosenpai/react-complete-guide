@@ -9,31 +9,31 @@ import FullPost from "../FullPost/FullPost";
 class Posts extends Component {
   state = {
     posts: [],
-    error: false
+    error: false,
   };
 
   componentDidMount() {
     console.log(this.props);
     axios
       .get("/posts")
-      .then(response => {
+      .then((response) => {
         const posts = response.data.slice(0, 4);
-        const updatedPosts = posts.map(post => {
+        const updatedPosts = posts.map((post) => {
           return {
             ...post,
-            author: "Max"
+            author: "Max",
           };
         });
         this.setState({ posts: updatedPosts });
         // console.log(response);
       })
-      .catch(error => {
+      .catch((error) => {
         // console.log(error);
         this.setState({ error: true });
       });
   }
 
-  postSelectedHandler = id => {
+  postSelectedHandler = (id) => {
     // this.props.history.push({ pathname: "/" + id });
     this.props.history.push("/posts/" + id);
   };
@@ -41,7 +41,7 @@ class Posts extends Component {
   render() {
     let posts = <p style={{ textAlign: "center" }}>Something went wrong!</p>;
     if (!this.state.error) {
-      posts = this.state.posts.map(post => {
+      posts = this.state.posts.map((post) => {
         return (
           // <Link key={post.id} to={"/" + post.id}>
           <Post
