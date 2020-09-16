@@ -14,7 +14,7 @@ const INGREDIENT_PRICES = {
   salad: 0.5,
   cheese: 0.4,
   meat: 1.3,
-  bacon: 0.7
+  bacon: 0.7,
 };
 
 class BurgerBuilder extends Component {
@@ -28,25 +28,26 @@ class BurgerBuilder extends Component {
     purchasable: false,
     purchasing: false,
     loading: false,
-    error: false
+    error: false,
   };
 
   componentDidMount() {
+    console.log(this.props);
     axios
       .get(
         "https://react-my-burger-visco-9b5ee.firebaseio.com/ingredients.json"
       )
-      .then(response => {
+      .then((response) => {
         this.setState({ ingredients: response.data });
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({ error: true });
       });
   }
 
   updatePurchaseState(ingredients) {
     const sum = Object.keys(ingredients)
-      .map(igKey => {
+      .map((igKey) => {
         return ingredients[igKey];
       })
       .reduce((sum, el) => {
@@ -55,11 +56,11 @@ class BurgerBuilder extends Component {
     this.setState({ purchasable: sum > 0 });
   }
 
-  addIngredientHandler = type => {
+  addIngredientHandler = (type) => {
     const oldCount = this.state.ingredients[type];
     const updatedCounted = oldCount + 1;
     const updatedIngredients = {
-      ...this.state.ingredients
+      ...this.state.ingredients,
     };
     updatedIngredients[type] = updatedCounted;
     const priceAddition = INGREDIENT_PRICES[type];
@@ -69,14 +70,14 @@ class BurgerBuilder extends Component {
     this.updatePurchaseState(updatedIngredients);
   };
 
-  removeIngredientHandler = type => {
+  removeIngredientHandler = (type) => {
     const oldCount = this.state.ingredients[type];
     if (oldCount <= 0) {
       return;
     }
     const updatedCounted = oldCount - 1;
     const updatedIngredients = {
-      ...this.state.ingredients
+      ...this.state.ingredients,
     };
     updatedIngredients[type] = updatedCounted;
     const priceDeduction = INGREDIENT_PRICES[type];
@@ -96,34 +97,25 @@ class BurgerBuilder extends Component {
 
   purchaseContinueHandler = () => {
     // alert("You Continue!");
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: "KAMA Hiroki",
-        address: {
-          street: "Teststreet 1",
-          zipCode: "8100042",
-          country: "Japan"
-        },
-        email: "test@test.com"
-      },
-      deliveryMethod: "fastest"
-    };
-    axios
-      .post("/orders.json", order)
-      .then(response => {
-        this.setState({ loading: false, purchasing: false });
-      })
-      .catch(error => {
-        this.setState({ loading: false, purchasing: false });
-      });
+    const queryParams = [];
+    for (let i in this.state.ingredients) {
+      queryParams.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[i])
+      );
+    }
+    queryParams.push("price=" + this.state.totalPrice);
+    const queryString = queryParams.join("&");
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString,
+    });
   };
 
   render() {
     const disabledInfo = {
-      ...this.state.ingredients
+      ...this.state.ingredients,
     };
     for (let key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0; // 0以下だったらtrue, 0より大きければfalseが入る
