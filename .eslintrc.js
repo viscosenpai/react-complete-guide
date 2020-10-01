@@ -27,4 +27,15 @@ module.exports = {
     "react/no-unescaped-entities": 0,
     "react/display-name": "off"
   },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.js",
+        "**/*.test.jsx"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }
