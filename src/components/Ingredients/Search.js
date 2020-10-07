@@ -26,7 +26,7 @@ const Search = React.memo((props) => {
               loadedIngredients.push({
                 id: key,
                 title: responseData[key].title,
-                amount: responseData[key].amout,
+                amount: responseData[key].amount,
               });
             }
             onLoadIngredients(loadedIngredients);
